@@ -8,7 +8,6 @@ import { ContactPageComponent } from './pages/contact-page/contact-page.componen
 import { SearchBoxComponent } from './components/search-box/search-box.component';
 
 
-
 @NgModule({
   declarations: [
     HomePageComponent,
