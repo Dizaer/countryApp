@@ -15,12 +15,26 @@ export class CountriesService {
         byRegion: { term: '', countries: []}
     }
 
-    constructor(private httpClient: HttpClient) { }
+    constructor(private httpClient: HttpClient) { 
+        this.loadFromLocalStorage();
+    }
+
+    private saveToLocalStorage() {
+        localStorage.setItem( 'cacheStore', JSON.stringify( this.cacheStore ) );
+    }
+
+    private loadFromLocalStorage() {
+        if ( !localStorage.getItem('cacheStore') ) return;
+
+        this.cacheStore = JSON.parse( localStorage.getItem('cacheStore')!);
+    }
 
     public searchCountries( term:any , by: string ) {
         const url = `${ this.apiUrl }/${ by }/${ term }`
         return this.httpClient.get<Country[]>( url )
         .pipe(
+
+            catchError( () => of([]) ),
             tap( countries => {
                 switch(by){
                     case 'capital':
@@ -34,7 +48,7 @@ export class CountriesService {
                         break;
                 }
             }),
-            catchError( () => of([]) ),
+            tap( () => this.saveToLocalStorage() ),
             delay(300)
         );
     }
