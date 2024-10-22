@@ -13,6 +13,6 @@ export interface TermCountries {
 }
 
 export interface RegionCountries {
-    term?: Region;
+    term: Region;
     countries: Country[];
 }
