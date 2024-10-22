@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { catchError, map, Observable, of } from 'rxjs';
+import { catchError, delay, map, Observable, of } from 'rxjs';
 import { Country } from '../interfaces/country';
 
 @Injectable({providedIn: 'root'})
@@ -14,7 +14,8 @@ export class CountriesService {
         const url = `${ this.apiUrl }/${ by }/${ term }`
         return this.httpClient.get<Country[]>( url )
         .pipe(
-            catchError( () => of([]) )
+            catchError( () => of([]) ),
+            delay(2000)
         );
     }
     
